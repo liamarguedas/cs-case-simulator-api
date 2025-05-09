@@ -16,9 +16,11 @@ public class Weapon implements Serializable {
 	public Weapon() {
 	}
 
-	public Weapon(String id, String name, Category category) {
+	public Weapon(String id, String name, Condition condition, Category category) {
+
 		this.id = id;
 		this.name = name;
+		this.condition = condition;
 		this.category = category;
 	}
 
@@ -74,6 +76,10 @@ public class Weapon implements Serializable {
 	@Override
 	public String toString() {
 		return "Weapon [id=" + id + ", name=" + name + "]";
+	}
+
+	public String generateName() {
+		return category.getPrintable() + " " + name + " | " + condition.getSkin().getName();
 	}
 
 }

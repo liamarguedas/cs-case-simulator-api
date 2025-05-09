@@ -1,22 +1,29 @@
 package com.sode.domain;
 
 import java.io.Serializable;
-import java.util.Objects;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import com.sode.domain.enums.SkinCategory;
+
+@Document
 public class Category implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
+	@Id
 	private String id;
-	private String name;
-	private String namePrintable;
+	private SkinCategory category;
+	private String printable;
 
-	public Category() {}
+	public Category() {
+	}
 
-	public Category(String id, String name, String namePrintable) {
+	public Category(String id, SkinCategory category) {
 		this.id = id;
-		this.name= name;
-		this.namePrintable = namePrintable;
+		this.category = category;
+		this.printable = generatePrintable();
 	}
 
 	public String getId() {
@@ -27,12 +34,31 @@ public class Category implements Serializable {
 		this.id = id;
 	}
 
-	public String getNamePrintable() {
-		return namePrintable;
+	public SkinCategory getCategory() {
+		return category;
 	}
 
-	public void setNamePrintable(String namePrintable) {
-		this.namePrintable = namePrintable;
+	public void setCategory(SkinCategory category) {
+		this.category = category;
+	}
+
+	public String getPrintable() {
+		return printable;
+	}
+
+	public void setPrintable(String printable) {
+		this.printable = printable;
+	}
+
+	private String generatePrintable() {
+
+		String prefix = switch (category.getValue()) {
+		case 2 -> "StatTrak™";
+		case 3, 4 -> "★";
+		default -> "";
+		};
+
+		return prefix;
 	}
 
 }

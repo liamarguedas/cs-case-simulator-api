@@ -10,6 +10,7 @@ public class Condition implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	private Exterior exterior;
+	private Skin skin;
 	private Double nFloat;
 	private Quality quality;
 	
@@ -17,10 +18,19 @@ public class Condition implements Serializable{
 	public Condition() {}
 
 
-	public Condition(Exterior exterior, Double nFloat, Quality quality) {
+	public Condition(Exterior exterior, Double nFloat, Quality quality, Skin skin) {
 		this.exterior = exterior;
 		this.nFloat = nFloat;
 		this.quality = quality;
+		this.skin = skin;
+	}
+
+	public Skin getSkin() {
+		return skin;
+	}
+
+	public void setSkin(Skin skin) {
+		this.skin = skin;
 	}
 
 
