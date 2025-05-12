@@ -21,4 +21,7 @@ public class ItemService implements Serializable {
 		return repository.findAll();
 	}
 
+	public Item findById(String id) {
+		return repository.findById(id).get();
+	}
 }

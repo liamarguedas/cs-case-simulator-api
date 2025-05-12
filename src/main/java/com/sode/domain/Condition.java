@@ -2,44 +2,44 @@ package com.sode.domain;
 
 import java.io.Serializable;
 
-import com.sode.domain.enums.Exterior;
-import com.sode.domain.enums.Quality;
+import com.sode.domain.enums.Exteriors;
+import com.sode.domain.enums.Qualities;
 
 public class Condition implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
-	private Exterior exterior;
-	private Skin skin;
+	private Exteriors exterior;
+	private String skin;
 	private Double nFloat;
-	private Quality quality;
+	private Qualities quality;
 	
 	
 	public Condition() {}
 
 
-	public Condition(Exterior exterior, Double nFloat, Quality quality, Skin skin) {
+	public Condition(Exteriors exterior, Double nFloat, Qualities quality, String skin) {
 		this.exterior = exterior;
 		this.nFloat = nFloat;
 		this.quality = quality;
 		this.skin = skin;
 	}
 
-	public Skin getSkin() {
+	public String getSkin() {
 		return skin;
 	}
 
-	public void setSkin(Skin skin) {
+	public void setSkin(String skin) {
 		this.skin = skin;
 	}
 
 
-	public Exterior getExterior() {
+	public Exteriors getExterior() {
 		return exterior;
 	}
 
 
-	public void setExterior(Exterior exterior) {
+	public void setExterior(Exteriors exterior) {
 		this.exterior = exterior;
 	}
 
@@ -54,12 +54,12 @@ public class Condition implements Serializable{
 	}
 
 
-	public Quality getQuality() {
+	public Qualities getQuality() {
 		return quality;
 	}
 
 
-	public void setQuality(Quality quality) {
+	public void setQuality(Qualities quality) {
 		this.quality = quality;
 	}
 	

@@ -8,6 +8,8 @@ import java.util.Objects;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.sode.domain.interfaces.ItemType;
+
 @Document
 public class Item implements Serializable {
 
@@ -20,37 +22,38 @@ public class Item implements Serializable {
 
 	private Price price;
 
-	private Weapon weapon;
+	private ItemType item;
 
-	private List<Weapon> itens = new ArrayList<>();
+	private List<ItemType> itens = new ArrayList<>();
 
 	public Item() {}
 
-	public Item(String id, String name, Price price, Boolean create) {
+	public Item(String id, ItemType item, Price price, Boolean create) {
 		this.id = id;
-		this.name = name;
+		this.item = item;
 		this.price = price;
+		this.create = create;
+		this.name = item.generateName();
+	}
+
+	public Boolean getCreate() {
+		return create;
+	}
+
+	public void setCreate(Boolean create) {
 		this.create = create;
 	}
 
-	public Weapon getWeapon() {
-		if (!create) {
-			return weapon;
-		}
-		return null;
+	public ItemType getItem() {
+		return item;
 	}
 
-	public void setWeapon(Weapon weapon) {
-		if (!create) {
-			this.weapon = weapon;
-		}
+	public void setItem(ItemType item) {
+		this.item = item;
 	}
 
-	public List<Weapon> getItens() {
-		if (create) {
-			return itens;
-		}
-		return null;
+	public List<ItemType> getItens() {
+		return itens;
 	}
 
 	public void setPrice(Price price) {

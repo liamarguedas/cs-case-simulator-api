@@ -1,20 +1,21 @@
 package com.sode.domain.enums;
 
-public enum Quality {
-	BASE_GRADE(1), 
+public enum Qualities {
+	BASE(1), 
 	CLASSIFIED(2),
-	CONSUMER_GRADE(3),  
+	CONSUMER(3),  
 	COVERT(4),
 	EXTRAORDINARY(5), 
-	HIGH_GRADE(6),  
-	INDUSTRIAL_GRADE(7),  
-	MIL_SPEC_GRADE(8),  
+	GRADE(6),  
+	INDUSTRIAL(7),  
+	MIL_SPEC(8),  
 	REMARKABLE(9),
-	RESTRICTED(10);
+	RESTRICTED(10),
+	CONTRABAND(11);
 	
 private final Integer value;
 	
-	private Quality(Integer value) {
+	private Qualities(Integer value) {
 		this.value = value;
 	}
 	
@@ -22,8 +23,8 @@ private final Integer value;
 		return value;
 	}
 	
-	public static Quality fromValue(Integer value) {
-		 for (Quality status : Quality.values()) {
+	public static Qualities fromValue(Integer value) {
+		 for (Qualities status : Qualities.values()) {
 	            if (status.getValue() == value) {
 	                return status;
 	            }

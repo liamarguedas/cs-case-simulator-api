@@ -3,23 +3,28 @@ package com.sode.domain;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class Weapon implements Serializable {
+import com.sode.domain.enums.Categories;
+import com.sode.domain.enums.Weapons;
+import com.sode.domain.interfaces.ItemType;
+
+public class Weapon implements Serializable, ItemType {
 
 	private static final long serialVersionUID = 1L;
 
 	private String id;
-	private String name;
+	private Weapons type;
 
-	private Category category;
+	private Categories category;
 	private Condition condition;
 
 	public Weapon() {
 	}
 
-	public Weapon(String id, String name, Condition condition, Category category) {
+	public Weapon(String id, Weapons type, Condition condition, Categories category) {
 
+		
 		this.id = id;
-		this.name = name;
+		this.type = type;
 		this.condition = condition;
 		this.category = category;
 	}
@@ -32,11 +37,11 @@ public class Weapon implements Serializable {
 		this.condition = condition;
 	}
 
-	public Category getCategory() {
+	public Categories getSkinCategory() {
 		return category;
 	}
 
-	public void setCategory(Category category) {
+	public void setSkinCategory(Categories category) {
 		this.category = category;
 	}
 
@@ -48,17 +53,13 @@ public class Weapon implements Serializable {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public Weapons getType() {
+		return type;
 	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
+	
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, name);
+		return Objects.hash(id);
 	}
 
 	@Override
@@ -70,16 +71,16 @@ public class Weapon implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Weapon other = (Weapon) obj;
-		return Objects.equals(id, other.id) && Objects.equals(name, other.name);
+		return Objects.equals(id, other.id);
 	}
 
 	@Override
 	public String toString() {
-		return "Weapon [id=" + id + ", name=" + name + "]";
+		return "Weapon [id=" + id + ", name=" + type.getDisplayName() + "]";
 	}
 
 	public String generateName() {
-		return category.getPrintable() + " " + name + " | " + condition.getSkin().getName();
+		return category.generatePrintable() + " " + type.getDisplayName() + " | " + condition.getSkin();
 	}
 
 }
