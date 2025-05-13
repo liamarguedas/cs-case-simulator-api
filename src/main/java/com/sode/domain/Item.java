@@ -36,12 +36,8 @@ public class Item implements Serializable {
 		this.name = item.generateName();
 	}
 
-	public Boolean getCreate() {
+	public Boolean isCreate() {
 		return create;
-	}
-
-	public void setCreate(Boolean create) {
-		this.create = create;
 	}
 
 	public ItemType getItem() {

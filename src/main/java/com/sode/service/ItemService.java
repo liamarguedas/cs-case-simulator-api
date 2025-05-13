@@ -24,4 +24,12 @@ public class ItemService implements Serializable {
 	public Item findById(String id) {
 		return repository.findById(id).get();
 	}
+	
+	public List<Item> findCases(){
+		return repository
+				.findAll()
+				.stream()
+				.filter(Item::isCreate)
+				.toList();
+	}
 }

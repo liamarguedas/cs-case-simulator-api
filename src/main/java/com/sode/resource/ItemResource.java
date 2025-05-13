@@ -3,6 +3,7 @@ package com.sode.resource;
 import java.io.Serializable;
 import java.util.List;
 
+import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +31,11 @@ public class ItemResource implements Serializable {
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<Item> findById(@PathVariable String id){
 		return ResponseEntity.ok().body(service.findById(id));
+	}
+	
+	@GetMapping(value = "/cases")
+	public ResponseEntity<List<Item>> findCases(){
+		return ResponseEntity.ok().body(service.findCases());
 	}
 	
 }
