@@ -6,23 +6,22 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.sode.domain.Item;
-import com.sode.repository.ItemRepository;
+import com.sode.domain.Weapon;
+import com.sode.repository.WeaponRepository;
 
 @Service
-public class ItemService implements Serializable {
+public class WeaponService implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
 	@Autowired
-	private ItemRepository repository;
+	private WeaponRepository repository;
 
-	public List<Item> findAll(){
+	public List<Weapon> findAll(){
 		return repository.findAll();
 	}
 
-	public Item findById(String id) {
+	public Weapon findById(String id) {
 		return repository.findById(id).get();
 	}
-	
 }

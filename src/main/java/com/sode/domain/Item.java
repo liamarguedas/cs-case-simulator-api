@@ -1,8 +1,6 @@
 package com.sode.domain;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 import org.springframework.data.annotation.Id;
@@ -21,10 +19,7 @@ public class Item implements Serializable {
 	private Boolean create;
 
 	private Price price;
-
 	private ItemType item;
-
-	private List<ItemType> itens = new ArrayList<>();
 
 	public Item() {}
 
@@ -46,10 +41,6 @@ public class Item implements Serializable {
 
 	public void setItem(ItemType item) {
 		this.item = item;
-	}
-
-	public List<ItemType> getItens() {
-		return itens;
 	}
 
 	public void setPrice(Price price) {

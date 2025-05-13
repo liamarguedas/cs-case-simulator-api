@@ -3,14 +3,19 @@ package com.sode.domain;
 import java.io.Serializable;
 import java.util.Objects;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import com.sode.domain.enums.Categories;
 import com.sode.domain.enums.Weapons;
 import com.sode.domain.interfaces.ItemType;
 
+@Document
 public class Weapon implements Serializable, ItemType {
 
 	private static final long serialVersionUID = 1L;
 
+	@Id
 	private String id;
 	private Weapons type;
 
@@ -82,5 +87,6 @@ public class Weapon implements Serializable, ItemType {
 	public String generateName() {
 		return category.generatePrintable() + " " + type.getDisplayName() + " | " + condition.getSkin();
 	}
+
 
 }

@@ -7,7 +7,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.ClassPathResource;
-import com.sode.CsCaseSimulatorApplication;
+
 import com.sode.domain.Case;
 import com.sode.domain.Condition;
 import com.sode.domain.Item;
@@ -15,21 +15,24 @@ import com.sode.domain.Weapon;
 import com.sode.domain.enums.Categories;
 import com.sode.domain.enums.Qualities;
 import com.sode.domain.enums.Weapons;
+import com.sode.repository.CaseRepository;
 import com.sode.repository.ItemRepository;
+import com.sode.repository.WeaponRepository;
 import com.sode.utils.Data;
 
 @Configuration
 @Profile("Loader")
 public class LoadingDataProfile implements CommandLineRunner {
 
-	private final CsCaseSimulatorApplication csCaseSimulatorApplication;
 
 	@Autowired
 	private ItemRepository itemRepository;
+	
+	@Autowired
+	private CaseRepository caseRepository; 
 
-	LoadingDataProfile(CsCaseSimulatorApplication csCaseSimulatorApplication) {
-		this.csCaseSimulatorApplication = csCaseSimulatorApplication;
-	}
+	@Autowired 
+	private WeaponRepository weaponRepository;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -37,6 +40,8 @@ public class LoadingDataProfile implements CommandLineRunner {
 		// IMPLEMENTS KNIVES SKINS...
 
 		itemRepository.deleteAll();
+		weaponRepository.deleteAll();
+		caseRepository.deleteAll();
 
 		List<String[]> file = Data.loadCSV(new ClassPathResource("data/marketplace_data.csv"));
 
@@ -56,6 +61,7 @@ public class LoadingDataProfile implements CommandLineRunner {
 
 					if (itemCase != null) {
 						itemRepository.save(itemCase);
+						caseRepository.save(ca);
 					}
 
 					ca = new Case(null, caseName);
@@ -65,18 +71,20 @@ public class LoadingDataProfile implements CommandLineRunner {
 
 				Condition c = new Condition(null, null, Qualities.valueOf(quality), skin);
 				Weapon w = new Weapon(null, Weapons.valueOf(gun), c, Categories.NORMAL);
+				Item i = new Item(null, w, null, false);
 
-				itemCase.getItens().add(w);
+				ca.getItens().add(w);
 
-				itemRepository.save(new Item(null, w, null, false));
+				weaponRepository.save(w);
+				itemRepository.save(i);
 
 			} catch (Exception e) {
 				e.printStackTrace();
 				System.out.println(row + " " + gun + " " + skin + " " + quality);
-				// TODO: handle exception
 			}
 
 			itemRepository.save(itemCase);
+			caseRepository.save(ca);
 		}
 	}
 }

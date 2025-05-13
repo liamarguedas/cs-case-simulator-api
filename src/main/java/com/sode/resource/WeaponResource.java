@@ -10,26 +10,25 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sode.domain.Item;
-import com.sode.service.ItemService;
+import com.sode.domain.Weapon;
+import com.sode.service.WeaponService;
 
 @RestController
-@RequestMapping(value = "/items")
-public class ItemResource implements Serializable {
+@RequestMapping(value = "/weapons")
+public class WeaponResource implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
 	@Autowired
-	private ItemService service;
+	private WeaponService service;
 	
 	@GetMapping
-	public ResponseEntity<List<Item>> findAll(){
+	public ResponseEntity<List<Weapon>> findAll(){
 		return ResponseEntity.ok().body(service.findAll());
 	}
 	
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<Item> findById(@PathVariable String id){
+	public ResponseEntity<Weapon> findById(@PathVariable String id){
 		return ResponseEntity.ok().body(service.findById(id));
 	}
-	
 }
