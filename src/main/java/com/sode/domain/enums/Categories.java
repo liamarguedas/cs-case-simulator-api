@@ -4,7 +4,8 @@ public enum Categories {
 	NORMAL(1),
 	STATTRAK(2),
 	KNIFE(3),
-	GLOVES(4);
+	KNIFE_STATTRAK(4),
+	GLOVES(5);
 	
 	private final Integer value;
 	

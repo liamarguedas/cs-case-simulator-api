@@ -11,7 +11,7 @@ public class TestingProfile implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		
-
+		// ADD WEAPON CATEGORY TO CASE OPENING (NORMAL, STT, GLOVES, KNIFES)
 	
 		}
 }

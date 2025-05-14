@@ -10,24 +10,22 @@ import org.springframework.core.io.ClassPathResource;
 
 import com.sode.domain.Case;
 import com.sode.domain.Condition;
-import com.sode.domain.Item;
+import com.sode.domain.Price;
 import com.sode.domain.Weapon;
 import com.sode.domain.enums.Categories;
 import com.sode.domain.enums.Qualities;
 import com.sode.domain.enums.Weapons;
 import com.sode.repository.CaseRepository;
-import com.sode.repository.ItemRepository;
 import com.sode.repository.WeaponRepository;
+import com.sode.utils.Currency;
 import com.sode.utils.Data;
 
 @Configuration
-@Profile("Loader")
+@Profile("SkinCaseLoader")
 public class LoadingDataProfile implements CommandLineRunner {
 
+	private final static double MARKET_FEE = 3.15;
 
-	@Autowired
-	private ItemRepository itemRepository;
-	
 	@Autowired
 	private CaseRepository caseRepository; 
 
@@ -36,17 +34,13 @@ public class LoadingDataProfile implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-
-		// IMPLEMENTS KNIVES SKINS...
-
-		itemRepository.deleteAll();
+		
 		weaponRepository.deleteAll();
 		caseRepository.deleteAll();
 
 		List<String[]> file = Data.loadCSV(new ClassPathResource("data/marketplace_data.csv"));
 
 		Case ca = null;
-		Item itemCase = null;
 
 		for (int row = 1; row < file.size(); row++) {
 
@@ -59,31 +53,27 @@ public class LoadingDataProfile implements CommandLineRunner {
 
 				if (ca == null || !caseName.equals(ca.getName())) {
 
-					if (itemCase != null) {
-						itemRepository.save(itemCase);
+					if (ca != null) {
 						caseRepository.save(ca);
 					}
 
 					ca = new Case(null, caseName);
-					itemCase = new Item(null, ca, null, true);
+					Price p = new Price(Currency.generateRandomPrice(1.0, 100.0), MARKET_FEE);
+					ca.setPrice(p);
 
 				}
 
 				Condition c = new Condition(null, null, Qualities.valueOf(quality), skin);
-				Weapon w = new Weapon(null, Weapons.valueOf(gun), c, Categories.NORMAL);
-				Item i = new Item(null, w, null, false);
+				Weapon w = new Weapon(null, Weapons.valueOf(gun), c, Categories.NORMAL, false);
 
 				ca.getItens().add(w);
-
 				weaponRepository.save(w);
-				itemRepository.save(i);
 
 			} catch (Exception e) {
 				e.printStackTrace();
 				System.out.println(row + " " + gun + " " + skin + " " + quality);
 			}
 
-			itemRepository.save(itemCase);
 			caseRepository.save(ca);
 		}
 	}

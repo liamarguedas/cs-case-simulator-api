@@ -11,7 +11,8 @@ import com.sode.domain.Item;
 import com.sode.domain.Price;
 import com.sode.domain.Weapon;
 import com.sode.repository.CaseRepository;
-import com.sode.repository.ItemRepository;
+import com.sode.repository.WeaponRepository;
+import com.sode.utils.Currency;
 
 @Service
 public class CaseService implements Serializable {
@@ -22,7 +23,7 @@ public class CaseService implements Serializable {
 	private CaseRepository repository;
 	
 	@Autowired
-	private ItemRepository itemRepository;
+	private WeaponRepository weaponRepository;
 
 	public List<Case> findAll(){
 		return repository.findAll();
@@ -39,13 +40,12 @@ public class CaseService implements Serializable {
 		Weapon w = c.open();
 		
 		// add logic to retrieve current trading price
-		Price p = new Price(10.0, 3.0);
-		// -------------------------------------------
-		
-		Item i = new Item(null, w, p, false);
-		itemRepository.save(i);
-		
-		return i;
+		Price p = new Price(Currency.generateRandomPrice(1.0, 50.0), 3.0);
+		w.setPrice(p);
+
+		weaponRepository.save(w);
+
+		return w;
 
 	}
 }

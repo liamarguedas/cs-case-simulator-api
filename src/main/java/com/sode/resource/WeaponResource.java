@@ -24,11 +24,21 @@ public class WeaponResource implements Serializable {
 	
 	@GetMapping
 	public ResponseEntity<List<Weapon>> findAll(){
+
 		return ResponseEntity.ok().body(service.findAll());
+
+	}
+	
+	@GetMapping(value = "/catalog")
+	public ResponseEntity<List<Weapon>> findAllCatalog(){
+		return ResponseEntity.ok().body(service.findAllCatalog());
 	}
 	
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<Weapon> findById(@PathVariable String id){
+
 		return ResponseEntity.ok().body(service.findById(id));
+
 	}
+
 }

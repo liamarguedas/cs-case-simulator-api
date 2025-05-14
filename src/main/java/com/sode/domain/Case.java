@@ -11,12 +11,12 @@ import java.util.Random;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.sode.domain.enums.Categories;
 import com.sode.domain.enums.Exteriors;
 import com.sode.domain.enums.Qualities;
-import com.sode.domain.interfaces.ItemType;
 
 @Document
-public class Case implements ItemType, Serializable {
+public class Case extends Item implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -30,6 +30,7 @@ public class Case implements ItemType, Serializable {
 	}
 
 	public Case(String id, String name) {
+		super();
 		this.name = name;
 		updateProbabilities();
 	}
@@ -85,48 +86,77 @@ public class Case implements ItemType, Serializable {
 		return Objects.equals(id, other.id);
 	}
 
-	@Override
-	public String generateName() {
-		return name;
-	}
-
 	public Weapon open() {
 
 		Qualities selectedQuality = getRandomQuality();
 
 		List<Weapon> possibleItems = items.stream()
 				.filter(w -> w.getCondition().getQuality().getValue() == selectedQuality.getValue()).toList();
-		
+
 		Random ran = new Random();
 		int randomIndex = ran.nextInt(possibleItems.size());
-		
-		Weapon w = possibleItems.get(randomIndex);
+
+		Weapon winner = possibleItems.get(randomIndex);
 		
 		double nFloat = getRandomFloat();
-		
-		Condition c = new Condition(getExterior(nFloat), nFloat, selectedQuality,w.getCondition().getSkin());	
-		
-		w.setCondition(c);
-		
+		Condition c = new Condition(getExterior(nFloat), nFloat, selectedQuality, winner.getCondition().getSkin());
+
+		Weapon w = new Weapon(null, winner.getWeaponType(), c, generateCategory(winner), true);
+
 		return w;
 
 	}
-	
-	private static Exteriors getExterior(double nFloat) {
-		
-		if (nFloat <= 0.07) return Exteriors.FACTORY_NEW;
-		if (nFloat <= 0.15) return Exteriors.MINIMAL_WEAR;
-		if (nFloat <= 0.38) return Exteriors.FIELD_TESTED;
-		if (nFloat <= 0.45) return Exteriors.WELL_WORN;
-		return Exteriors.BATTLE_SCARRE;
-	
-	}
-	
-	private static double getRandomFloat() {
+
+	private static Categories generateCategory(Weapon w) {
 		
 		Random ran = new Random();
-		return Math.round(ran.nextDouble() * 100000d) / 100000d;
+		Qualities wQuality = w.getCondition().getQuality();
 		
+		if (ran.nextDouble() < 0.10) {
+		
+			if ( wQuality.equals(Qualities.RARE_SPECIAL_ITEM)) {
+				return Categories.KNIFE_STATTRAK;
+			}
+
+			return Categories.STATTRAK;
+		
+		} else if (wQuality.equals(Qualities.RARE_SPECIAL_ITEM)) {
+			
+			// ADD LOGIC TO SWITCH BETWEEN KNIFE AND GLOVES
+			
+			// LEAVE KNIFE FOR NOW 
+			
+			// return Categories.GLOVES
+			
+			return Categories.KNIFE;
+			
+			// ---------------------------
+			// --------------------------
+		} 
+		
+		return Categories.NORMAL;
+			
+	}
+
+	private static Exteriors getExterior(double nFloat) {
+
+		if (nFloat <= 0.07)
+			return Exteriors.FACTORY_NEW;
+		if (nFloat <= 0.15)
+			return Exteriors.MINIMAL_WEAR;
+		if (nFloat <= 0.38)
+			return Exteriors.FIELD_TESTED;
+		if (nFloat <= 0.45)
+			return Exteriors.WELL_WORN;
+		return Exteriors.BATTLE_SCARRE;
+
+	}
+
+	private static double getRandomFloat() {
+
+		Random ran = new Random();
+		return Math.round(ran.nextDouble() * 100000d) / 100000d;
+
 	}
 
 	private static Qualities getRandomQuality() {
@@ -144,5 +174,4 @@ public class Case implements ItemType, Serializable {
 		}
 		return Qualities.MIL_SPEC;
 	}
-
 }

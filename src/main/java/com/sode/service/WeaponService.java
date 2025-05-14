@@ -16,9 +16,26 @@ public class WeaponService implements Serializable {
 	
 	@Autowired
 	private WeaponRepository repository;
+	
+	public List<Weapon> findAllCatalog(){
+		return repository.findAll();
+	}
 
 	public List<Weapon> findAll(){
-		return repository.findAll();
+		try {
+		List<Weapon> tradableItems = repository.findAll().stream().filter(Weapon::isTradable).toList();
+		return tradableItems;
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+//		for (Weapon w: tradableItems) {
+//			System.out.println(w.getName() + " " + w.isTradable());
+//			
+//			}
+//		}
+		
+	}
+	return null;	
 	}
 
 	public Weapon findById(String id) {

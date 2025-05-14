@@ -8,16 +8,15 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.sode.domain.enums.Categories;
 import com.sode.domain.enums.Weapons;
-import com.sode.domain.interfaces.ItemType;
 
 @Document
-public class Weapon implements Serializable, ItemType {
+public class Weapon extends Item implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	private String id;
-	private Weapons type;
+	private Weapons weaponType;
 
 	private Categories category;
 	private Condition condition;
@@ -25,13 +24,19 @@ public class Weapon implements Serializable, ItemType {
 	public Weapon() {
 	}
 
-	public Weapon(String id, Weapons type, Condition condition, Categories category) {
-
+	public Weapon(String id, Weapons weaponType, Condition condition, Categories category, Boolean tradable) {
+		
+		super(null, tradable);
 		
 		this.id = id;
-		this.type = type;
+		this.weaponType = weaponType;
 		this.condition = condition;
 		this.category = category;
+		
+	}
+
+	public String getName() {
+		return category.generatePrintable() + " " + weaponType.getDisplayName() + " | " + condition.getSkin();
 	}
 
 	public Condition getCondition() {
@@ -58,8 +63,8 @@ public class Weapon implements Serializable, ItemType {
 		this.id = id;
 	}
 
-	public Weapons getType() {
-		return type;
+	public Weapons getWeaponType() {
+		return weaponType;
 	}
 	
 	@Override
@@ -81,11 +86,7 @@ public class Weapon implements Serializable, ItemType {
 
 	@Override
 	public String toString() {
-		return "Weapon [id=" + id + ", name=" + type.getDisplayName() + "]";
-	}
-
-	public String generateName() {
-		return category.generatePrintable() + " " + type.getDisplayName() + " | " + condition.getSkin();
+		return "Weapon [id=" + id + ", name=" + weaponType.getDisplayName() + "]";
 	}
 
 
